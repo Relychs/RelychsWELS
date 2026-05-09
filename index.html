@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RelychsWELS — Work · Eat · Live · Sleep</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --bg2: #161616;
+    --red: #C0392B;          /* lighter, more visible red */
+    --red-glow: #e04030;
+    --red-dim: rgba(192,57,43,0.15);
+    --free: #2ECC71;         /* green accent for FREE */
+    --free-dim: rgba(46,204,113,0.12);
+    --white: #EDEDED;
+    --muted: #777;
+    --border: #262626;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  /* Subtle noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* Red atmospheric glow at top */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(192,57,43,0.18) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 460px;
+    padding: 60px 24px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* ── AVATAR / PHOTO ── */
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    border: 2px solid var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    box-shadow: 0 0 28px rgba(192,57,43,0.35), 0 0 70px rgba(192,57,43,0.12);
+    animation: pulse-ring 3s ease-in-out infinite;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 28px rgba(192,57,43,0.35), 0 0 70px rgba(192,57,43,0.12); }
+    50%       { box-shadow: 0 0 38px rgba(192,57,43,0.55), 0 0 90px rgba(192,57,43,0.18); }
+  }
+
+  .avatar-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 26px;
+    letter-spacing: 1px;
+    color: var(--red);
+  }
+
+  /* ── NAME & TAGLINE ── */
+  .name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 7px;
+  }
+
+  .name span { color: var(--red); }
+
+  .tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .bio {
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+    line-height: 1.6;
+    max-width: 300px;
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .divider-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── LINKS ── */
+  .links {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .link-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 18px 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    text-decoration: none;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    cursor: pointer;
+  }
+
+  /* FREE buttons — green left border */
+  .link-btn.is-free {
+    border-left-color: var(--free);
+  }
+
+  .link-btn.is-free .link-icon {
+    background: var(--free-dim);
+    border-color: rgba(46,204,113,0.25);
+  }
+
+  .link-btn.is-free .link-icon svg {
+    stroke: var(--free);
+  }
+
+  .link-btn.is-free .link-arrow {
+    color: var(--free);
+  }
+
+  .link-btn.is-free::before {
+    background: linear-gradient(90deg, rgba(46,204,113,0.05) 0%, transparent 60%);
+  }
+
+  .link-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(192,57,43,0.07) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .link-btn:hover {
+    border-color: var(--red);
+    background: #1c1c1c;
+    transform: translateX(2px);
+  }
+
+  .link-btn.is-free:hover {
+    border-color: var(--free);
+  }
+
+  .link-btn:hover::before { opacity: 1; }
+  .link-btn:active { transform: translateX(4px) scale(0.99); }
+
+  .link-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--red-dim);
+    border: 1px solid rgba(192,57,43,0.25);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .link-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .link-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .link-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;           /* bigger */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* FREE badge inside label */
+  .badge-free {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 1px 7px;
+    background: var(--free-dim);
+    border: 1px solid rgba(46,204,113,0.4);
+    color: var(--free);
+    border-radius: 2px;
+    vertical-align: middle;
+    line-height: 1.6;
+  }
+
+  .link-sub {
+    font-size: 12px;           /* slightly bigger */
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.3px;
+  }
+
+  /* Price badge for paid CTA */
+  .price-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    color: var(--red);
+    background: rgba(192,57,43,0.1);
+    border: 1px solid rgba(192,57,43,0.3);
+    padding: 3px 9px;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .link-arrow {
+    color: var(--red);
+    font-size: 18px;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .link-btn:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+
+  /* ── PHOTO SECTION ── */
+  .photo-section {
+    width: 100%;
+    margin-bottom: 28px;
+  }
+
+  .photo-card {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .photo-img-wrap {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .photo-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Placeholder shown when no photo is provided */
+  .photo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    height: 100%;
+    color: #333;
+  }
+
+  .photo-placeholder svg {
+    opacity: 0.3;
+  }
+
+  .photo-placeholder-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #333;
+  }
+
+  /* Gradient overlay at bottom of photo */
+  .photo-img-wrap::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(14,14,14,0.85) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .photo-caption {
+    padding: 16px 18px 18px;
+    border-top: 1px solid var(--border);
+  }
+
+  .photo-caption-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .photo-caption-name span { color: var(--red); }
+
+  .photo-caption-text {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ── WELS PILLARS ── */
+  .wels-section {
+    width: 100%;
+    margin-bottom: 28px;
+  }
+
+  .wels-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .wels-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 16px 14px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s, background 0.25s;
+    cursor: default;
+  }
+
+  .wels-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .wels-card:hover {
+    border-color: rgba(192,57,43,0.4);
+    background: #181818;
+  }
+
+  .wels-card:hover::before {
+    opacity: 1;
+  }
+
+  .wels-letter {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 42px;
+    color: rgba(192,57,43,0.18);
+    line-height: 1;
+    margin-bottom: 4px;
+    transition: color 0.25s;
+  }
+
+  .wels-card:hover .wels-letter {
+    color: rgba(192,57,43,0.35);
+  }
+
+  .wels-word {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .wels-desc {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  /* ── SOCIAL ROW ── */
+  .social-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  .social-btn {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #252525;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #555;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    font-size: 14px;
+  }
+
+  .social-btn:hover {
+    color: var(--red);
+    border-color: var(--red);
+    background: rgba(192,57,43,0.07);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+  }
+
+  .footer-brand {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #2e2e2e;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .footer-brand span { color: #3e0000; }
+
+  .footer-copy {
+    font-size: 10px;
+    color: #2e2e2e;
+    letter-spacing: 1px;
+  }
+
+  /* ── CALORIE CALCULATOR ── */
+  .calc-section {
+    width: 100%;
+    margin-bottom: 28px;
+  }
+
+  .calc-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--free);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    user-select: none;
+  }
+
+  .calc-toggle:hover {
+    background: #1c1c1c;
+    border-color: var(--free);
+  }
+
+  .calc-toggle .link-icon {
+    background: var(--free-dim);
+    border-color: rgba(46,204,113,0.25);
+    flex-shrink: 0;
+  }
+
+  .calc-toggle .link-icon svg { stroke: var(--free); }
+
+  .calc-toggle-text { flex: 1; }
+
+  .calc-toggle-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .calc-toggle-sub {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .calc-chevron {
+    color: var(--free);
+    font-size: 18px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .calc-chevron.open { transform: rotate(90deg); }
+
+  .calc-body {
+    display: none;
+    background: #111;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-left: 3px solid var(--free);
+    padding: 20px;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .calc-body.open { display: flex; }
+
+  .calc-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .calc-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .calc-field.full { grid-column: span 2; }
+
+  .calc-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .calc-input {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .calc-input:focus { border-color: var(--free); }
+
+  .calc-input::placeholder { color: #333; }
+
+  .calc-select {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 10px 12px;
+    outline: none;
+    cursor: pointer;
+    width: 100%;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+
+  .calc-select:focus { border-color: var(--free); }
+
+  .calc-select option { background: #1a1a1a; }
+
+  .calc-btn {
+    width: 100%;
+    padding: 13px;
+    background: var(--free);
+    border: none;
+    color: #0a0a0a;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 4px;
+  }
+
+  .calc-btn:hover { background: #27ae60; }
+  .calc-btn:active { transform: scale(0.99); }
+
+  .calc-result {
+    display: none;
+    background: #0d1a11;
+    border: 1px solid rgba(46,204,113,0.2);
+    border-left: 3px solid var(--free);
+    padding: 16px;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .calc-result.show { display: flex; }
+
+  .calc-result-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--free);
+    margin-bottom: 2px;
+  }
+
+  .calc-result-main {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .calc-result-main span {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+
+  .calc-result-sub {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: -4px;
+  }
+
+  .calc-goals {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .calc-goal-item {
+    background: #111;
+    border: 1px solid #222;
+    padding: 8px 10px;
+    text-align: center;
+  }
+
+  .calc-goal-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .calc-goal-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .calc-goal-item.active {
+    border-color: rgba(46,204,113,0.3);
+    background: #0d1a11;
+  }
+
+  .calc-goal-item.active .calc-goal-val { color: var(--free); }
+
+  .calc-cta-note {
+    font-size: 10px;
+    color: #444;
+    text-align: center;
+    line-height: 1.5;
+    padding-top: 4px;
+    border-top: 1px solid #1a1a1a;
+  }
+
+  .calc-cta-note a {
+    color: var(--red);
+    text-decoration: none;
+  }
+
+  .calc-error {
+    display: none;
+    font-size: 11px;
+    color: #e74c3c;
+    font-weight: 400;
+  }
+
+  .calc-error.show { display: block; }
+
+  /* ── ENTRY ANIMATIONS ── */
+  .avatar       { animation: fadeUp 0.5s ease both; animation-delay: 0.05s; }
+  .name         { animation: fadeUp 0.5s ease both; animation-delay: 0.1s; }
+  .tagline      { animation: fadeUp 0.5s ease both; animation-delay: 0.15s; }
+  .bio          { animation: fadeUp 0.5s ease both; animation-delay: 0.2s; }
+  .divider      { animation: fadeUp 0.5s ease both; animation-delay: 0.25s; }
+  .links        { animation: fadeUp 0.5s ease both; animation-delay: 0.3s; }
+  .photo-section{ animation: fadeUp 0.5s ease both; animation-delay: 0.35s; }
+  .calc-section { animation: fadeUp 0.5s ease both; animation-delay: 0.38s; }
+  .wels-section { animation: fadeUp 0.5s ease both; animation-delay: 0.42s; }
+  .social-row   { animation: fadeUp 0.5s ease both; animation-delay: 0.48s; }
+  .footer       { animation: fadeUp 0.5s ease both; animation-delay: 0.54s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Avatar -->
+  <div class="avatar">
+    <!-- REPLACE src with your actual photo URL or relative path -->
+    <!-- If no photo, the initials fallback shows automatically -->
+    <span class="avatar-text" id="avatar-fallback">RW</span>
+  </div>
+
+  <!-- Name -->
+  <div class="name">Relychs<span>WELS</span></div>
+  <div class="tagline">Work · Eat · Live · Sleep</div>
+  <div class="bio">Custom fitness plans built for real life.<br>No fluff. No excuses. Just structure.</div>
+
+  <!-- Section label -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-label">Get Started</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Links -->
+  <div class="links">
+
+    <!-- Paid: Custom Plan — price visible -->
+    <a class="link-btn" href="https://tally.so/r/Gxolgo" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+        </svg>
+      </div>
+      <div class="link-text">
+        <div class="link-label">Get My Custom Plan</div>
+        <div class="link-sub">Fill out intake form · Personalized for you</div>
+      </div>
+      <div class="price-tag">₱149–₱399</div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <!-- FREE: Beginner Transformation Guide -->
+    <a class="link-btn is-free" href="https://drive.google.com/drive/folders/1oOuRcDMzicKhsfNP-s0kHo6XJ4LDQFoW?usp=sharing" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+        </svg>
+      </div>
+      <div class="link-text">
+        <div class="link-label">Beginner Transformation Guide <span class="badge-free">FREE</span></div>
+        <div class="link-sub">4 weeks. No customization needed.</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <!-- FREE: Diet Guide -->
+    <a class="link-btn is-free" href="https://drive.google.com/file/d/1Ai_FAgY-mG2-vsY3l8agdVlYSnzWSNxs/view?usp=drive_link" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a7 7 0 017 7c0 4-3 6-4 9H9c-1-3-4-5-4-9a7 7 0 017-7z"/><path d="M9 21h6"/><path d="M9.5 18h5"/>
+        </svg>
+      </div>
+      <div class="link-text">
+        <div class="link-label">Diet Guide <span class="badge-free">FREE</span></div>
+        <div class="link-sub">Practical nutrition, no trends</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <!-- FREE: Sample Program -->
+    <a class="link-btn is-free" href="https://drive.google.com/file/d/YOUR_SAMPLE_PROGRAM_ID/view?usp=sharing" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+        </svg>
+      </div>
+      <div class="link-text">
+        <div class="link-label">Sample Program <span class="badge-free">FREE</span></div>
+        <div class="link-sub">See what a WELS plan looks like</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <!-- Instagram -->
+    <a class="link-btn" href="https://www.instagram.com/relychswels/?hl=en" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r="1.5"/>
+        </svg>
+      </div>
+      <div class="link-text">
+        <div class="link-label">Instagram</div>
+        <div class="link-sub">Training content & updates</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <!-- TikTok -->
+    <a class="link-btn" href="https://www.tiktok.com/@relychswels" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/>
+        </svg>
+      </div>
+      <div class="link-text">
+        <div class="link-label">TikTok</div>
+        <div class="link-sub">Real talk & raw fitness</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+    <!-- Facebook -->
+    <a class="link-btn" href="https://www.facebook.com/profile.php?id=61573475855688" target="_blank" rel="noopener">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+        </svg>
+      </div>
+      <div class="link-text">
+        <div class="link-label">Facebook</div>
+        <div class="link-sub">Community & updates</div>
+      </div>
+      <div class="link-arrow">→</div>
+    </a>
+
+  </div>
+
+  <!-- ── PHOTO SECTION ── -->
+  <!-- To add your photo: replace the placeholder block inside .photo-img-wrap with:
+       <img src="YOUR_PHOTO_URL_OR_PATH" alt="Relychs WELS Coach" />
+       and remove the .photo-placeholder div -->
+  <div class="photo-section">
+    <div class="divider" style="margin-bottom:16px;">
+      <div class="divider-line"></div>
+      <div class="divider-label">The Coach</div>
+      <div class="divider-line"></div>
+    </div>
+    <div class="photo-card">
+      <div class="photo-img-wrap">
+        <!-- ↓↓↓  REPLACE THIS BLOCK WITH YOUR PHOTO  ↓↓↓ -->
+         <img src="https://raw.githubusercontent.com/Relychs/RelychsWELS/main/coach.jpg" alt="Relychs WELS Coach" />
+        <!-- ↑↑↑  END REPLACE BLOCK  ↑↑↑ -->
+      </div>
+      <div class="photo-caption">
+        <div class="photo-caption-name">Relychs<span>WELS</span></div>
+        <div class="photo-caption-text">I don't sell motivation. I sell structure. The system does the rest — you just have to show up.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── WELS PILLARS SECTION ── -->
+  <div class="wels-section">
+    <div class="divider" style="margin-bottom:16px;">
+      <div class="divider-line"></div>
+      <div class="divider-label">The System</div>
+      <div class="divider-line"></div>
+    </div>
+    <div class="wels-grid">
+
+      <div class="wels-card">
+        <div class="wels-letter">W</div>
+        <div class="wels-word">Work</div>
+        <div class="wels-desc">Progressive training built around your schedule and your goals — not someone else's.</div>
+      </div>
+
+      <div class="wels-card">
+        <div class="wels-letter">E</div>
+        <div class="wels-word">Eat</div>
+        <div class="wels-desc">Real food, real numbers. Nutrition that fits your life without cutting everything you enjoy.</div>
+      </div>
+
+      <div class="wels-card">
+        <div class="wels-letter">L</div>
+        <div class="wels-word">Live</div>
+        <div class="wels-desc">A structure that runs around you — not the other way. Fitness that integrates, not disrupts.</div>
+      </div>
+
+      <div class="wels-card">
+        <div class="wels-letter">S</div>
+        <div class="wels-word">Sleep</div>
+        <div class="wels-desc">Recovery is part of the program. Most people skip this. It's where the results actually happen.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Social icons row -->
+  <div class="social-row">
+    <a class="social-btn" href="https://www.instagram.com/relychswels/?hl=en" target="_blank" rel="noopener" title="Instagram">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+    </a>
+    <a class="social-btn" href="https://www.tiktok.com/@relychswels" target="_blank" rel="noopener" title="TikTok">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg>
+    </a>
+    <a class="social-btn" href="https://www.facebook.com/profile.php?id=61573475855688" target="_blank" rel="noopener" title="Facebook">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+    </a>
+  </div>
+
+ 
+
+  <!-- ── CALORIE CALCULATOR ── -->
+  <div class="calc-section">
+    <div class="divider" style="margin-bottom:12px;">
+      <div class="divider-line"></div>
+      <div class="divider-label">Free Tools</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- Toggle Button -->
+    <div class="calc-toggle" onclick="toggleCalc()" id="calc-toggle">
+      <div class="link-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17">
+          <rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/>
+        </svg>
+      </div>
+      <div class="calc-toggle-text">
+        <div class="calc-toggle-label">
+          Calorie Calculator
+          <span class="badge-free">FREE</span>
+        </div>
+        <div class="calc-toggle-sub">BMR · TDEE · Goal calories — tap to open</div>
+      </div>
+      <div class="calc-chevron" id="calc-chevron">→</div>
+    </div>
+
+    <!-- Calculator Body -->
+    <div class="calc-body" id="calc-body">
+
+      <!-- Row 1: Sex + Age -->
+      <div class="calc-row">
+        <div class="calc-field">
+          <div class="calc-label">Sex</div>
+          <select class="calc-select" id="calc-sex">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <div class="calc-label">Age (years)</div>
+          <input class="calc-input" type="number" id="calc-age" placeholder="e.g. 21" min="10" max="100">
+        </div>
+      </div>
+
+      <!-- Row 2: Weight + Height -->
+      <div class="calc-row">
+        <div class="calc-field">
+          <div class="calc-label">Weight (kg)</div>
+          <input class="calc-input" type="number" id="calc-weight" placeholder="e.g. 65" min="30" max="300" step="0.1">
+        </div>
+        <div class="calc-field">
+          <div class="calc-label">Height (cm)</div>
+          <input class="calc-input" type="number" id="calc-height" placeholder="e.g. 170" min="100" max="250">
+        </div>
+      </div>
+
+      <!-- Activity Level -->
+      <div class="calc-row">
+        <div class="calc-field full">
+          <div class="calc-label">Activity Level</div>
+          <select class="calc-select" id="calc-activity">
+            <option value="1.2">Sedentary — little or no exercise</option>
+            <option value="1.375">Lightly Active — 1–3 days/week</option>
+            <option value="1.55" selected>Moderately Active — 3–5 days/week</option>
+            <option value="1.725">Very Active — 6–7 days/week</option>
+            <option value="1.9">Extra Active — physical job or 2x/day</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div class="calc-error" id="calc-error">Please fill in all fields correctly.</div>
+
+      <!-- Calculate Button -->
+      <button class="calc-btn" onclick="calculateCalories()">Calculate My Calories</button>
+
+      <!-- Result -->
+      <div class="calc-result" id="calc-result">
+        <div>
+          <div class="calc-result-title">Your Maintenance Calories (TDEE)</div>
+          <div class="calc-result-main" id="result-tdee">—<span>kcal/day</span></div>
+          <div class="calc-result-sub" id="result-bmr">BMR: —</div>
+        </div>
+        <div class="calc-goals">
+          <div class="calc-goal-item" id="goal-cut">
+            <div class="calc-goal-label">Fat Loss</div>
+            <div class="calc-goal-val" id="val-cut">—</div>
+            <div class="calc-goal-label" style="margin-top:2px;">kcal</div>
+          </div>
+          <div class="calc-goal-item active" id="goal-maintain">
+            <div class="calc-goal-label">Maintain</div>
+            <div class="calc-goal-val" id="val-maintain">—</div>
+            <div class="calc-goal-label" style="margin-top:2px;">kcal</div>
+          </div>
+          <div class="calc-goal-item" id="goal-bulk">
+            <div class="calc-goal-label">Muscle Gain</div>
+            <div class="calc-goal-val" id="val-bulk">—</div>
+            <div class="calc-goal-label" style="margin-top:2px;">kcal</div>
+          </div>
+        </div>
+        <div class="calc-cta-note">
+          Want a full plan built around these numbers?<br>
+          <a href="https://tally.so/r/Gxolgo" target="_blank">Get your custom WELS plan →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function toggleCalc() {
+      const body    = document.getElementById('calc-body');
+      const chevron = document.getElementById('calc-chevron');
+      const isOpen  = body.classList.contains('open');
+      body.classList.toggle('open', !isOpen);
+      chevron.classList.toggle('open', !isOpen);
+      chevron.textContent = isOpen ? '→' : '↓';
+    }
+
+    function calculateCalories() {
+      const sex      = document.getElementById('calc-sex').value;
+      const age      = parseFloat(document.getElementById('calc-age').value);
+      const weight   = parseFloat(document.getElementById('calc-weight').value);
+      const height   = parseFloat(document.getElementById('calc-height').value);
+      const activity = parseFloat(document.getElementById('calc-activity').value);
+      const errEl    = document.getElementById('calc-error');
+      const resEl    = document.getElementById('calc-result');
+
+      // Validate
+      if (!age || !weight || !height || isNaN(age) || isNaN(weight) || isNaN(height)
+          || age < 10 || age > 100 || weight < 30 || height < 100) {
+        errEl.classList.add('show');
+        resEl.classList.remove('show');
+        return;
+      }
+      errEl.classList.remove('show');
+
+      // Revised Harris-Benedict
+      let bmr;
+      if (sex === 'male') {
+        bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+      } else {
+        bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+      }
+
+      const tdee = Math.round(bmr * activity);
+      const cut  = Math.round(tdee - 400);
+      const bulk = Math.round(tdee + 250);
+
+      document.getElementById('result-tdee').innerHTML  = `${tdee.toLocaleString()}<span>kcal/day</span>`;
+      document.getElementById('result-bmr').textContent = `BMR (base): ${Math.round(bmr).toLocaleString()} kcal`;
+      document.getElementById('val-cut').textContent     = cut.toLocaleString();
+      document.getElementById('val-maintain').textContent = tdee.toLocaleString();
+      document.getElementById('val-bulk').textContent    = bulk.toLocaleString();
+
+      resEl.classList.add('show');
+
+      // Scroll result into view
+      setTimeout(() => resEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+    }
+
+    // Allow Enter key to calculate
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        const body = document.getElementById('calc-body');
+        if (body.classList.contains('open')) calculateCalories();
+      }
+    });
+  </script>
+
+   <!-- Footer -->
+  <div class="footer">
+    <div class="footer-brand">Relychs<span>WELS</span></div>
+    <div class="footer-copy">© 2025 · Built different.</div>
+  </div>
+
+</div>
+</body>
+</html>
