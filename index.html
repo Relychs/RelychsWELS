@@ -821,6 +821,121 @@
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+    /* ── RESPONSIVE DESIGN (Mobile vs Desktop) ── */
+
+/* MOBILE (default - under 768px) */
+.container {
+  max-width: 460px;
+  padding: 60px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* DESKTOP (768px and above) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 1200px;
+    padding: 80px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  /* Sidebar: Left column */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: sticky;
+    top: 80px;
+  }
+
+  /* Main content: Right column */
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Desktop links: 2 columns */
+  .links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .link-btn {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 10px;
+  }
+
+  /* Larger typography on desktop */
+  .name {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .tagline {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .bio {
+    text-align: left;
+    max-width: 100%;
+    margin-bottom: 48px;
+    font-size: 14px;
+  }
+
+  /* Photo section larger on desktop */
+  .photo-img-wrap {
+    aspect-ratio: 16/9;
+  }
+
+  .photo-caption-name {
+    font-size: 24px;
+  }
+
+  .photo-caption-text {
+    font-size: 13px;
+  }
+
+  /* WELS section larger on desktop */
+  .wels-grid {
+    gap: 12px;
+  }
+
+  .wels-card {
+    padding: 20px 16px;
+  }
+
+  .wels-letter {
+    font-size: 56px;
+    margin-bottom: 8px;
+  }
+
+  .wels-word {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .wels-desc {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  /* Footer spans full width */
+  .footer {
+    grid-column: 1 / -1;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+}
 </style>
 </head>
 <body>
