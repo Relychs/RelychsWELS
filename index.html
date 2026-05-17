@@ -821,6 +821,72 @@
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+
+/* ── LIGHTWEIGHT EMAIL FORM ── */
+.email-form-light {
+  width: 100%;
+  margin: 30px 0;
+  padding: 20px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--free);
+}
+
+.email-form-light h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.email-form-light p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.email-form-light input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.email-form-light input[type="email"]:focus {
+  outline: none;
+  border-color: var(--free);
+  background: #1a1a1a;
+}
+
+.email-form-light button {
+  width: 100%;
+  padding: 12px;
+  background: var(--free);
+  color: #000;
+  border: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.email-form-light button:hover {
+  background: #1fa050;
+}
+
+.email-form-light button:active {
+  transform: scale(0.98);
+}
    
 </style>
 </head>
@@ -845,6 +911,22 @@
     <div class="divider-label">Get Started</div>
     <div class="divider-line"></div>
   </div>
+
+<!-- ── LIGHTWEIGHT EMAIL FORM ── -->
+<div class="email-form-light">
+  <form action="https://github.us3.list-manage.com/subscribe/post?u=c12b0470a7b5dfa71af5907cd&amp;id=d675029da7&amp;f_id=00f4c6e0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+    
+    <h3>Join My List</h3>
+    <p>Weekly tips on Work, Eat, Live, Sleep</p>
+    
+    <input type="email" name="EMAIL" placeholder="Enter your email..." required>
+    
+    <!-- Hidden field (required by Mailchimp) -->
+    <input type="hidden" name="b_..." value="">
+    
+    <button type="submit">Subscribe</button>
+  </form>
+</div>
 
   <!-- Links -->
   <div class="links">
